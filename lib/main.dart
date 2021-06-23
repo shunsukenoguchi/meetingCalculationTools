@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: '会議費用計算ツール'),
     );
   }
 }
@@ -27,20 +27,41 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  Timer _timer;
-  void _incrementCounter() {
-    _timer = Timer.periodic(Duration(seconds: 1), _countUp);
+  int counter = 0;
+  Timer timer;
+  bool switchBool = true;
+  int seconds = 0;
+  int minutes = 0;
+  int hours = 0;
+  int sumSalary = 0;
+  void startTimer() {
+    timer = Timer.periodic(Duration(seconds: 1), _countUp);
+    changeButton();
   }
 
   void _countUp(Timer timer) {
     setState(() {
-      _counter++;
+      counter++;
     });
   }
 
-  void _stopCounter() {
-    _timer.cancel();
+  void stopTimer() {
+    timer.cancel();
+    changeButton();
+  }
+
+  void finishTimer() {
+    timer.cancel();
+    counter = 0;
+    if (switchBool == false) {
+      changeButton();
+    }
+  }
+
+  void changeButton() {
+    setState(() {
+      switchBool = !switchBool;
+    });
   }
 
   @override
@@ -53,28 +74,89 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            RaisedButton(
-              color: Colors.blue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '$sumSalary円',
+                style: TextStyle(
+                  fontSize: 45,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-              onPressed: _incrementCounter,
-              child: Icon(Icons.add),
             ),
-            RaisedButton(
-              color: Colors.red,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                '$hours時間$minutes分$seconds秒',
+                style: TextStyle(
+                  fontSize: 45,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-              onPressed: _stopCounter,
-              child: Icon(Icons.stop),
+            ),
+            Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (switchBool)
+                    SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: RaisedButton(
+                            color: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(75),
+                            ),
+                            onPressed: startTimer,
+                            child: Text(
+                              '会議開始',
+                              style: TextStyle(
+                                fontSize: 25,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )))
+                  else
+                    SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: RaisedButton(
+                        color: Colors.red,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(75),
+                        ),
+                        onPressed: stopTimer,
+                        child: Text(
+                          '会議中断',
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  SizedBox(
+                    width: 150,
+                    height: 150,
+                    child: RaisedButton(
+                      color: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(75),
+                      ),
+                      onPressed: finishTimer,
+                      child: Text(
+                        '終了',
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

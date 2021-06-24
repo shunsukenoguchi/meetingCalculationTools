@@ -33,7 +33,11 @@ class _MyHomePageState extends State<MyHomePage> {
   int seconds = 0;
   int minutes = 0;
   int hours = 0;
+  var positionSarary = [20000, 10000, 7000, 5000, 3000];
+  var positionNum = [0, 0, 0, 0, 0];
   int sumSalary = 0;
+  int dropdownValue = 0;
+
   void startTimer() {
     timer = Timer.periodic(Duration(seconds: 1), _countUp);
     changeButton();
@@ -43,6 +47,18 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       counter++;
     });
+    seconds = counter;
+    if (counter >= 60) {
+      seconds = seconds % 60;
+      minutes = (counter / 60).floor();
+    }
+    if (minutes >= 60) {
+      minutes = minutes % 60;
+      hours = (minutes / 60).floor();
+    }
+    for (int i = 0; i < positionSarary.length; i++) {
+      sumSalary = counter * positionNum[i] * (positionSarary[i] / 3600).round();
+    }
   }
 
   void stopTimer() {
@@ -52,7 +68,13 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void finishTimer() {
     timer.cancel();
-    counter = 0;
+    setState(() {
+      counter = 0;
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+      sumSalary = 0;
+    });
     if (switchBool == false) {
       changeButton();
     }
@@ -74,6 +96,131 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('役員クラス'),
+                DropdownButton<String>(
+                  // value: dropdownValue,
+                  icon: const Icon(Icons.arrow_downward),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.deepPurpleAccent,
+                  ),
+
+                  items: <String>['One', 'Two', 'Free', 'Four']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('役員クラス'),
+                DropdownButton<String>(
+                  // value: dropdownValue,
+                  icon: const Icon(Icons.arrow_downward),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.deepPurpleAccent,
+                  ),
+
+                  items: <String>['One', 'Two', 'Free', 'Four']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('役員クラス'),
+                DropdownButton<String>(
+                  // value: dropdownValue,
+                  icon: const Icon(Icons.arrow_downward),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.deepPurpleAccent,
+                  ),
+
+                  items: <String>['One', 'Two', 'Free', 'Four']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('役員クラス'),
+                DropdownButton<String>(
+                  // value: dropdownValue,
+                  icon: const Icon(Icons.arrow_downward),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.deepPurpleAccent,
+                  ),
+
+                  items: <String>['One', 'Two', 'Free', 'Four']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('役員クラス'),
+                DropdownButton<String>(
+                  // value: dropdownValue,
+                  icon: const Icon(Icons.arrow_downward),
+                  iconSize: 24,
+                  elevation: 16,
+                  style: const TextStyle(color: Colors.deepPurple),
+                  underline: Container(
+                    height: 2,
+                    color: Colors.deepPurpleAccent,
+                  ),
+
+                  items: <String>['One', 'Two', 'Free', 'Four']
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -99,58 +246,67 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (switchBool)
-                    SizedBox(
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                          width: 150,
+                          height: 150,
+                          child: RaisedButton(
+                              color: Colors.blue,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(75),
+                              ),
+                              onPressed: startTimer,
+                              child: Text(
+                                '会議開始',
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ))),
+                    )
+                  else
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
                         width: 150,
                         height: 150,
                         child: RaisedButton(
-                            color: Colors.blue,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(75),
+                          color: Colors.red,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(75),
+                          ),
+                          onPressed: stopTimer,
+                          child: Text(
+                            '会議中断',
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
-                            onPressed: startTimer,
-                            child: Text(
-                              '会議開始',
-                              style: TextStyle(
-                                fontSize: 25,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )))
-                  else
-                    SizedBox(
+                          ),
+                        ),
+                      ),
+                    ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
                       width: 150,
                       height: 150,
                       child: RaisedButton(
-                        color: Colors.red,
+                        color: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(75),
                         ),
-                        onPressed: stopTimer,
+                        onPressed: finishTimer,
                         child: Text(
-                          '会議中断',
+                          '終了',
                           style: TextStyle(
                             fontSize: 25,
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
-                        ),
-                      ),
-                    ),
-                  SizedBox(
-                    width: 150,
-                    height: 150,
-                    child: RaisedButton(
-                      color: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(75),
-                      ),
-                      onPressed: finishTimer,
-                      child: Text(
-                        '終了',
-                        style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),

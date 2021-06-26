@@ -34,9 +34,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int minutes = 0;
   int hours = 0;
   var positionSarary = [20000, 10000, 7000, 5000, 3000];
-  var positionNum = [0, 0, 0, 0, 0];
+  var positionName = ['役員クラス', 'マネージャークラス', '部長クラス', '主任クラス', '一般社員クラス'];
+  var positionValue = ['0', '0', '0', '0', '0'];
   int sumSalary = 0;
-  int dropdownValue = 0;
 
   void startTimer() {
     timer = Timer.periodic(Duration(seconds: 1), _countUp);
@@ -56,8 +56,11 @@ class _MyHomePageState extends State<MyHomePage> {
       minutes = minutes % 60;
       hours = (minutes / 60).floor();
     }
+    sumSalary = 0;
     for (int i = 0; i < positionSarary.length; i++) {
-      sumSalary = counter * positionNum[i] * (positionSarary[i] / 3600).round();
+      sumSalary += counter *
+          int.parse(positionValue[i]) *
+          (positionSarary[i] / 3600).round();
     }
   }
 
@@ -95,132 +98,55 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('役員クラス'),
-                DropdownButton<String>(
-                  // value: dropdownValue,
-                  icon: const Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.deepPurple),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.deepPurpleAccent,
-                  ),
-
-                  items: <String>['One', 'Two', 'Free', 'Four']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+            for (var i = 0; i < positionValue.length; i++)
+              Container(
+                decoration: BoxDecoration(
+                  // 枠線
+                  border: Border.all(color: Colors.black, width: 1),
+                  // 角丸
+                  borderRadius: BorderRadius.circular(8),
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('役員クラス'),
-                DropdownButton<String>(
-                  // value: dropdownValue,
-                  icon: const Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.deepPurple),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.deepPurpleAccent,
-                  ),
-
-                  items: <String>['One', 'Two', 'Free', 'Four']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: 280,
+                      child: Text(
+                        positionName[i] + ' ' + positionValue[i] + '人',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    DropdownButton<String>(
+                      // value: dropdownValue,
+                      icon: const Icon(Icons.arrow_drop_down_sharp),
+                      iconSize: 40,
+                      elevation: 16,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      onChanged: (String newValue) {
+                        setState(() {
+                          positionValue[i] = newValue;
+                        });
+                      },
+                      items: <String>['0', '1', '2', '3', '4', '5', '6', '7']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('役員クラス'),
-                DropdownButton<String>(
-                  // value: dropdownValue,
-                  icon: const Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.deepPurple),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.deepPurpleAccent,
-                  ),
-
-                  items: <String>['One', 'Two', 'Free', 'Four']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('役員クラス'),
-                DropdownButton<String>(
-                  // value: dropdownValue,
-                  icon: const Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.deepPurple),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.deepPurpleAccent,
-                  ),
-
-                  items: <String>['One', 'Two', 'Free', 'Four']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('役員クラス'),
-                DropdownButton<String>(
-                  // value: dropdownValue,
-                  icon: const Icon(Icons.arrow_downward),
-                  iconSize: 24,
-                  elevation: 16,
-                  style: const TextStyle(color: Colors.deepPurple),
-                  underline: Container(
-                    height: 2,
-                    color: Colors.deepPurpleAccent,
-                  ),
-
-                  items: <String>['One', 'Two', 'Free', 'Four']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
+              ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -299,7 +225,34 @@ class _MyHomePageState extends State<MyHomePage> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(75),
                         ),
-                        onPressed: finishTimer,
+                        onPressed: () async {
+                          // ダイアログを表示------------------------------------
+                          finishTimer();
+                          var result = await showDialog<int>(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('確認'),
+                                content: Text('確認のダイアログです。'),
+                                actions: <Widget>[
+                                  FlatButton(
+                                    child: Text('Cancel'),
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(0),
+                                  ),
+                                  FlatButton(
+                                    child: Text('OK'),
+                                    onPressed: () =>
+                                        Navigator.of(context).pop(1),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                          print('dialog result: $result');
+                          // --
+                        },
                         child: Text(
                           '終了',
                           style: TextStyle(
@@ -317,7 +270,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
